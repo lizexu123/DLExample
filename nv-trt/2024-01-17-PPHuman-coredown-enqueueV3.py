@@ -30,9 +30,9 @@ input1_shape=[2]
 input_value=[512,512]
 
 profile.set_shape("img", input_shape, input_shape, input_shape)
-profile.set_shape("cast_3.tmp_0",input1_shape,input1_shape,input1_shape)
+# profile.set_shape("cast_3.tmp_0",input1_shape,input1_shape,input1_shape)
 profile.set_shape_input("cast_3.tmp_0",input_value,input_value,input_value)
-profile.set_shape("cast_4.tmp_0",input1_shape,input1_shape,input1_shape)
+# profile.set_shape("cast_4.tmp_0",input1_shape,input1_shape,input1_shape)
 profile.set_shape_input("cast_4.tmp_0",input_value,input_value,input_value)
 
 config.add_optimization_profile(profile)
@@ -52,17 +52,10 @@ else:
 
 # logging.debug("create execution context")
 context = engine.create_execution_context()
-# tensor_names = [engine.get_tensor_name(i) for i in range(engine.num_io_tensors)]
-# for tensor in tensor_names:
-#     print("tensor的名字",tensor)
-#     dtype=trt.nptype(engine.get_tensor_dtype(tensor))
-#     print("tensor的dtype",dtype)
-#     if engine.get_tensor_mode(tensor)==trt.TensorIOMode.INPUT:
-#         if engine.is_shape_inference_io(tensor):
-#             context.set_input_shape(tensor,)
+
 context.set_input_shape("img",input_shape)
-context.set_input_shape("cast_3.tmp_0",input1_shape)
-context.set_input_shape("cast_4.tmp_0",input1_shape)
+# context.set_input_shape("cast_3.tmp_0",input1_shape)
+# context.set_input_shape("cast_4.tmp_0",input1_shape)
 
 # context.set_binding_shape(0, input_shape)
 # context.set_binding_shape(1,input1_shape)
@@ -86,6 +79,7 @@ context.set_tensor_address("img",int(d_input0))
 context.set_tensor_address("cast_3.tmp_0",int(d_input1))
 context.set_tensor_address("cast_4.tmp_0",int(d_input2))
 context.set_tensor_address("save_infer_model/scale_0.tmp_0",int(d_output))
+
 
 stream = cuda.Stream()
 for i in range(10):
